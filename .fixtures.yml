@@ -1,0 +1,11 @@
+fixtures:
+  repositories:
+    stdlib:
+      repo: "https://github.com/puppetlabs/puppetlabs-stdlib.git"
+      ref: "3.2.0"
+    network:
+      repo: "https://github.com/razorsedge/puppet-stdlib.git"
+      ref: "3.2.0"
+  symlinks:
+    openstack_network: "#{source_dir}"
+
