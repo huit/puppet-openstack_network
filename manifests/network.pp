@@ -15,12 +15,12 @@ define openstack_network::network (
   $bond_numbers = keys($bond)
   $bond_number = $bond_numbers[0]
   $bond_device = "bond${bond_number}"
-  $bond_interfaces = $bond[0]
+  $bond_interfaces = $bond[$bond_number]
   $bond_params = {
     'master' => $bond_device,
   }
   ensure_resource('openstack_network::bond_slave',
-                  $bond[0],
+                  $bond_interfaces,
                   $bond_params)
 
   # configure bonding group
