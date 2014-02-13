@@ -13,7 +13,7 @@ define openstack_network::network (
               "'${host_location}' may not contain whitespace or underscores.")
 
   validate_re($host_domain,
-              '^[[:alnum:]]+(\.[[:alnum:]]+)?$',
+              '^[[:alnum:]]+(\.[[:alnum:]]+){0,}$',
               "'${host_domain}' does not look like a domain name.")
 
   validate_hash($params)
