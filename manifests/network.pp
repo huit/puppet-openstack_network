@@ -10,9 +10,6 @@ define openstack_network::network (
   $vlan = $params['vlan']
 
   validate_hash($bond)
-  validate_ip_address($ipaddress)
-  validate_ip_address($netmask)
-  validate_ip_address($gateway)
 
   # configure physical interfaces
   $bond_numbers = keys($bond)
