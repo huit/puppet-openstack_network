@@ -9,7 +9,7 @@ define openstack_network::network (
               "'${host_number}' does not look numeric.")
 
   validate_re($host_location,
-              '^[^_\s]$',
+              '^[^_\s]+$',
               "'${host_location}' may not contain whitespace or underscores.")
 
   validate_re($host_domain,
