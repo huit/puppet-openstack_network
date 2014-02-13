@@ -36,6 +36,9 @@
 # Copyright 2014 President and Fellows of Harvard College
 #
 class openstack_network (
+  $host_number,
+  $host_location,
+  $host_domain,
   $admin_net   = $openstack_network::params::admin_net,
   $endpt_net   = $openstack_network::params::endpt_net,
   $mgmt_net    = $openstack_network::params::mgmt_net,
@@ -51,46 +54,56 @@ class openstack_network (
     }
   }
 
-if $openstack_network::admin_net {
-  validate_hash($openstack_network::admin_net)
-  openstack_network::network { 'admin':
-    params => $openstack_network::admin_net,
+  class { 'network::global':
+    vlan => 'yes',
   }
-}
 
-if $openstack_network::endpt_net {
-  validate_hash($openstack_network::endpt_net)
-  openstack_network::network { 'endpt':
-    params => $openstack_network::endpt_net,
+  Openstack_network::Network {
+    host_number   => $openstack_network::host_number,
+    host_location => $openstack_network::host_location,
+    host_domain   => $openstack_network::host_domain,
   }
-}
 
-if $openstack_network::mgmt_net {
-  validate_hash($openstack_network::mgmt_net)
-  openstack_network::network { 'mgmt':
-    params => $openstack_network::mgmt_net,
+  if $openstack_network::admin_net {
+    validate_hash($openstack_network::admin_net)
+    openstack_network::network { 'admin':
+      params        => $openstack_network::admin_net,
+    }
   }
-}
 
-if $openstack_network::integ_net {
-  validate_hash($openstack_network::integ_net)
-  openstack_network::network { 'integ':
-    params => $openstack_network::integ_net,
+  if $openstack_network::endpt_net {
+    validate_hash($openstack_network::endpt_net)
+    openstack_network::network { 'endpt':
+      params => $openstack_network::endpt_net,
+    }
   }
-}
 
-if $openstack_network::float_net {
-  validate_hash($openstack_network::float_net)
-  openstack_network::network { 'float':
-    params => $openstack_network::float_net,
+  if $openstack_network::mgmt_net {
+    validate_hash($openstack_network::mgmt_net)
+    openstack_network::network { 'mgmt':
+      params => $openstack_network::mgmt_net,
+    }
   }
-}
 
-if $openstack_network::storage_net {
-  validate_hash($openstack_network::storage_net)
-  openstack_network::network { 'storage':
-    params => $openstack_network::storage_net,
+  if $openstack_network::integ_net {
+    validate_hash($openstack_network::integ_net)
+    openstack_network::network { 'integ':
+      params => $openstack_network::integ_net,
+    }
   }
-}
+
+  if $openstack_network::float_net {
+    validate_hash($openstack_network::float_net)
+    openstack_network::network { 'float':
+      params => $openstack_network::float_net,
+    }
+  }
+
+  if $openstack_network::storage_net {
+    validate_hash($openstack_network::storage_net)
+    openstack_network::network { 'storage':
+      params => $openstack_network::storage_net,
+    }
+  }
 
 }

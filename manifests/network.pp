@@ -1,6 +1,21 @@
 define openstack_network::network (
   $params,
+  $host_number,
+  $host_location,
+  $host_domain,
 ) {
+  validate_re($host_number,
+              '^\d+$',
+              "'${host_number}' does not look numeric.")
+
+  validate_re($host_location,
+              '^[^_\s]$',
+              "'${host_location}' may not contain whitespace or underscores.")
+
+  validate_re($host_domain,
+              '^[[:alnum:]]+(\.[[:alnum:]])?$',
+              "'${host_domain}' does not look like a domain name.")
+
   validate_hash($params)
   $bond = $params['bond']
   $mtu = $params['mtu']
@@ -46,4 +61,13 @@ define openstack_network::network (
   # configure routing rules
 
 
+  # configure host entries
+  $short_hostname = "os${title}${host_number}-${host_location}"
+  $long_hostname = "${short_hostname}.${host_domain}"
+  host { $long_hostname:
+    ensure       => 'present',
+    provider     => 'augeas',
+    host_aliases => [ $short_hostname ],
+    ip           => $ipaddress,
+  }
 }

@@ -10,6 +10,7 @@ describe 'openstack_network', :type => :class do
 
       it {
         should create_class('openstack_network')
+        should create_class('network_global')
       }
 
     end
