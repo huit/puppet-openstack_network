@@ -41,7 +41,6 @@ define openstack_network::network (
     ipaddress => $ipaddress,
     netmask   => $netmask,
     gateway   => $gateway,
-    mtu       => $mtu,
   }
 
   # configure routing rules
