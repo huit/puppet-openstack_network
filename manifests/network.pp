@@ -1,11 +1,5 @@
 define openstack_network::network (
   $params,
-  $bond,
-  $mtu,
-  $ipaddress,
-  $netmask,
-  $gateway,
-  $vlan,
 ) {
   validate_hash($params)
   $bond = $params['bond']
