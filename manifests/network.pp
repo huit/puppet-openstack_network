@@ -49,9 +49,11 @@ define openstack_network::network (
     'mtu'          => $mtu,
     'bonding_opts' => 'mode=4 miimon=100',
   }
+  if ( ! defined(Network::Bond::Bridge[$bond_device]) ) {
   ensure_resource('network::bond::bridge',
                   $bond_device,
                   $bridge_params)
+  }
 
   # configure bridge
   network::bridge::static { $bridge_device:
