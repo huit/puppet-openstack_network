@@ -43,12 +43,15 @@ define openstack_network::network (
     false   => "br-${title}",
     default => "br-${title}.${vlan}",
   }
-  network::bond::bridge { $bond_device:
-    ensure       => 'up',
-    bridge       => $bridge_device,
-    mtu          => $mtu,
-    bonding_opts => 'mode=4 miimon=100'
+  $bridge_params = {
+    'ensure'       => 'up',
+    'bridge'       => $bridge_device,
+    'mtu'          => $mtu,
+    'bonding_opts' => 'mode=4 miimon=100',
   }
+  ensure_resource('network::bond::bridge',
+                  $bond_device,
+                  $bridge_params)
 
   # configure bridge
   network::bridge::static { $bridge_device:
