@@ -37,9 +37,11 @@ define openstack_network::network (
   $bond_params = {
     'master' => $bond_device,
   }
-  ensure_resource('openstack_network::bond_slave',
-                  $bond_interfaces,
-                  $bond_params)
+  if ( defined(Openstack_network::Bond_slave[$bond_interfaces]) ) {
+    ensure_resource('openstack_network::bond_slave',
+                    $bond_interfaces,
+                    $bond_params)
+  }
 
   # configure bonding group
   $bridge_device = "br-${title}"
