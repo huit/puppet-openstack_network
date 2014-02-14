@@ -29,7 +29,6 @@ define openstack_network::network (
   # configure physical interfaces
   $bond_numbers = keys($bond)
   $bond_number = $bond_numbers[0]
-  $bond_device = "bond${bond_number}"
   $bond_device = $vlan ? {
     false   => "bond${bond_number}",
     default => "bond${bond_number}.${vlan}",
