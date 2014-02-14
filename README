@@ -2,6 +2,8 @@ openstack_network
 
 This is the openstack_network module.
 
+NOTE: this module requires Puppet 3.2 or newer and the future parser!
+
 License
 -------
 
