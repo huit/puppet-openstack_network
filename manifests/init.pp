@@ -23,9 +23,30 @@
 #
 # === Examples
 #
-#  class { openstack_network:
-#    servers => [ 'pool.ntp.org', 'ntp.local.company.com' ],
-#  }
+# The easiest way to configure this module is by populating Hiera.  For example,
+# here's a Hiera configuration showing two networks:
+#
+#     ---
+#     openstack_network::host_number: '01'
+#     openstack_network::admin_net:
+#         bond:
+#             0:
+#             - 'eth0'
+#             - 'eth1'
+#         mtu: '1500'
+#         ipaddress: '10.255.77.254'
+#         netmask: '255.255.255.128'
+#         gateway: '10.255.77.129'
+#         vlan: false
+#     openstack_network::mgmt_net:
+#         bond:
+#             0:
+#             - 'eth0'
+#             - 'eth1'
+#         mtu: '1500'
+#         ipaddress: '10.255.71.254'
+#         netmask: '255.255.255.128'
+#         vlan: '3291'
 #
 # === Authors
 #

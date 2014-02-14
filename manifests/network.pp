@@ -21,6 +21,7 @@ define openstack_network::network (
   $mtu = $params['mtu']
   $ipaddress = $params['ipaddress']
   $netmask = $params['netmask']
+  $network = $params['network']
   $gateway = $params['gateway']
   $vlan = $params['vlan']
 
@@ -66,6 +67,11 @@ define openstack_network::network (
   }
 
   # configure routing rules
+  network::route { $bridge_device:
+    address => [ $network ],
+    netmask => [ $netmask ],
+    gateway => [ $gateway ],
+  }
 
 
   # configure host entries
