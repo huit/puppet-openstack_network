@@ -30,6 +30,10 @@ define openstack_network::network (
   $bond_numbers = keys($bond)
   $bond_number = $bond_numbers[0]
   $bond_device = "bond${bond_number}"
+  $bond_device = $vlan ? {
+    false   => "bond${bond_number}",
+    default => "bond${bond_number}.${vlan}",
+  }
   $bond_interfaces = $bond[$bond_number]
   $bond_params = {
     'master' => $bond_device,
@@ -39,10 +43,7 @@ define openstack_network::network (
                   $bond_params)
 
   # configure bonding group
-  $bridge_device = $vlan ? {
-    false   => "br-${title}",
-    default => "br-${title}.${vlan}",
-  }
+  $bridge_device = "br-${title}"
   $bridge_params = {
     'ensure'       => 'up',
     'bridge'       => $bridge_device,
@@ -50,9 +51,9 @@ define openstack_network::network (
     'bonding_opts' => 'mode=4 miimon=100',
   }
   if ( ! defined(Network::Bond::Bridge[$bond_device]) ) {
-  ensure_resource('network::bond::bridge',
-                  $bond_device,
-                  $bridge_params)
+    ensure_resource('network::bond::bridge',
+                    $bond_device,
+                    $bridge_params)
   }
 
   # configure bridge
