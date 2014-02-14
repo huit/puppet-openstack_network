@@ -69,9 +69,9 @@ define openstack_network::network (
   # configure routing rules
   if ( $network ) {
     network::route { $bridge_device:
-      address => [ $network ],
-      netmask => [ $netmask ],
-      gateway => [ $gateway ],
+      ipaddress => [ $network ],
+      netmask   => [ $netmask ],
+      gateway   => [ $gateway ],
     }
   }
 
