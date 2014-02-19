@@ -44,7 +44,7 @@ define openstack_network::network (
   }
 
   # configure bonding group
-  $bridge_device = "br-${title}"
+  $bridge_device = "br_${title}"
   $bridge_params = {
     'ensure'       => 'up',
     'bridge'       => $bridge_device,
